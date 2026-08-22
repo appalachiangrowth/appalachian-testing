@@ -1,0 +1,65 @@
+[
+  {
+    "url": "https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger",
+    "name": "How to add a Node.js Web App in Hostinger",
+    "snippet": "Yes, Hostinger supports Node . js applications on Business and Cloud hosting plans. This guide will show you how to deploy your Node . js application step-by-step. Read more",
+    "host_name": "www.hostinger.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hostinger.com/tutorials/node-js-vs-next-js",
+    "name": "Node.js vs. Next.js: Key differences and which to choose",
+    "snippet": "Jun 12, 2026 — Node.js operates at the runtime level , so it gives you lower-level control than Next.js. It is better suited for custom backend architecture,  ...",
+    "host_name": "www.hostinger.com",
+    "rank": 1,
+    "date": "Jun 12, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/nextjs/comments/18tbmzz/how_to_host_next_js_site_on_hostinger",
+    "name": "How to host Next js site on Hostinger? : r/nextjs",
+    "snippet": "I have been coding for a year now. Whenever I wanted to host a side project, I deploy it to vercel and it's very easy. But this time, I'm making a ...",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/ReactJsDevelopersGroup/posts/2562491740591712",
+    "name": "Deploying Next.js app on Hostinger",
+    "snippet": "Is it possible to deploy the Next . js static app in cPanel or other (netlify) hosting site without Node . js server ? Yes! It's 100% possible.",
+    "host_name": "www.facebook.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/71441456/whats-the-difference-between-next-start-and-node-server-js",
+    "name": "What's the difference between \"next start\" and \"node server",
+    "snippet": "So I'm struggling a bit with this. Let's say I build my NextJS project, I have 2 css files one of them is 10mb. Then I run next start and I see on Lighthouse ...",
+    "host_name": "stackoverflow.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/vercel/next.js/discussions/34599",
+    "name": "outputStandalone with custom server.js #34599",
+    "snippet": "Feb 21, 2022 — If you happen to implement a custom server , output standalone doesn't use your custom server . set up a script or run a set of commands to ...",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "Feb 21, 2022",
+    "favicon": ""
+  },
+  {
+    "url": "https://nextjs.org/docs/pages/getting-started/deploying",
+    "name": "Getting Started: Deploying",
+    "snippet": "Apr 22, 2025 — Next . js can be deployed as a Node . js server , Docker container, static export, or adapted to run on different platforms. Read more",
+    "host_name": "nextjs.org",
+    "rank": 6,
+    "date": "Apr 22, 2025",
+    "favicon": ""
+  }
+]

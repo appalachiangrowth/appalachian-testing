@@ -1,0 +1,65 @@
+[
+  {
+    "url": "https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger",
+    "name": "How to add a Node.js Web App in Hostinger",
+    "snippet": "Step 1 – Access the Node.js Apps Section. Log in to hPanel , go to Websites, and click Add Website, then choose Deploy Web App. Read more",
+    "host_name": "www.hostinger.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hostinger.com/tutorials/deploy-node-js-application",
+    "name": "How to deploy a Node.js application",
+    "snippet": "Aug 8, 2026 — Click Deploy to start the build . The system installs dependencies, runs the build command , and starts the Node . js application . Once deployment ... Read more",
+    "host_name": "www.hostinger.com",
+    "rank": 1,
+    "date": "Aug 8, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/76004405/how-to-run-npm-run-dev-command-on-my-hosted-laravel-website-on-hostinger",
+    "name": "How to run \"npm run dev\" command on my hosted Laravel",
+    "snippet": "I have created a website with authentication using Laravel \"composer requires laravel/ui and php artisan ui vue --auth\" After deploying the project ...",
+    "host_name": "stackoverflow.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/Hostinger/comments/1qhxmh9/created_a_nodejs_app_but_is_not_recognized_as_such",
+    "name": "Created a Node.js app but is not recognized as such",
+    "snippet": "Make sure you are using the proper start command in package.json , as well. A lack of the Node.js menu option in hPanel typically indicates it ... Read more",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hostinger.com/uk/tutorials/node-js-tutorial",
+    "name": "Node.js tutorial: Start using Node.js after installation",
+    "snippet": "May 10, 2026 — To deploy a Node.js website on Hostinger, follow these steps: Navigate to Websites → Add Website → Node.js Web App in hPanel . Connect a GitHub ...",
+    "host_name": "www.hostinger.com",
+    "rank": 4,
+    "date": "May 10, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@shahzebabro/deploy-nodejs-apps-with-github-actions-on-hostinger-vps-with-domains-ssl-44673c700e15",
+    "name": "Deploy NodeJS Apps with GitHub Actions on Hostinger",
+    "snippet": "In this follow-up post, we'll walk through how to deploy a Node.js app using GitHub Actions, PM2, nginx, and SSL with a custom domain.",
+    "host_name": "medium.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hostinger.com/tutorials/how-to-deploy-react-app",
+    "name": "How to deploy a React app in 6 steps",
+    "snippet": "Jul 24, 2026 — From the main page, go to Websites → Add website → Node.js Web App. hPanel Websites page with Add website menu showing Node.js Web App option. Read more",
+    "host_name": "www.hostinger.com",
+    "rank": 6,
+    "date": "Jul 24, 2026",
+    "favicon": ""
+  }
+]

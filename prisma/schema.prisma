@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Admin Auth ───
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Blogs ───
+
+model Blog {
+  id              String     @id @default(cuid())
+  title           String
+  slug            String     @unique
+  excerpt         String?
+  content         String
+  coverImage      String?
+  category        String     @default("General")
+  author          String     @default("Appalachian Growth")
+  isPublished     Boolean    @default(false)
+  readTime        Int        @default(5)
+  metaTitle       String?
+  metaDescription String?
+  canonicalUrl    String?
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  publishedAt     DateTime?
+  views           Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  postTags        PostTag[]
+}
+
+// ─── Blog Categories ───
+
+model BlogCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Blog Tags ───
+
+model BlogTag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  postTags  PostTag[]
+}
+
+// ─── Blog-Tag Join ───
+
+model PostTag {
+  postId String
+  tagId  String
+  post   Blog    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    BlogTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+// ─── Portfolio ───
+
+model PortfolioItem {
+  id             String   @id @default(cuid())
+  name           String
+  industry       String
+  platform       String
+  description    String
+  accentColor    String   @default("#B6FF00")
+  secondaryColor String   @default("#1a1a2e")
+  image          String
+  url            String   @default("")
+  challenge      String   @default("")
+  solution       String   @default("")
+  result         String   @default("")
+  sortOrder      Int      @default(0)
+  isPublished    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// ─── Testimonials ───
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  type        String   @default("")
+  text        String
+  rating      Int      @default(5)
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Team Members ───
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  bio         String
+  initials    String
+  websiteUrl  String   @default("#")
+  linkedinUrl String   @default("#")
+  githubUrl   String   @default("#")
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── FAQs ───
+
+model FAQ {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Digital Marketing Services ───
+
+model MarketingService {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  stat        String
+  icon        String
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Results / Transformations ───
+
+model Transformation {
+  id          String   @id @default(cuid())
+  client      String
+  metric      String
+  before      String
+  after       String
+  improvement String
+  description String
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Marketing Metrics (Before/After) ───
+
+model MarketingMetric {
+  id        String   @id @default(cuid())
+  metric    String
+  before    String
+  after     String
+  increase  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Hero Stats ───
+
+model HeroStat {
+  id        String   @id @default(cuid())
+  value     String
+  label     String
+  target    Int      @default(0)
+  suffix    String   @default("")
+  isStatic  Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Hero Screenshots ───
+
+model HeroScreenshot {
+  id        String   @id @default(cuid())
+  category  String   // "laptop", "monitor", "mobile"
+  url       String
+  alt       String   @default("")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── SEO Result Images ───
+
+model SeoResultImage {
+  id        String   @id @default(cuid())
+  title     String
+  url       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Platform Showcase Images (Shopify / WordPress) ───
+
+model PlatformImage {
+  id        String   @id @default(cuid())
+  title     String
+  url       String
+  clientUrl String   @default("")
+  platform  String   // "shopify" or "wordpress"
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Site Settings (Key-Value) ───
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Contact Submissions ───
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  service   String?
+  platform  String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ─── Uploaded Files ───
+
+model UploadedFile {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  mimetype  String
+  size      Int
+  category  String   @default("general")
+  createdAt DateTime @default(now())
+}

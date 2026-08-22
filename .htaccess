@@ -1,0 +1,60 @@
+# Apache MIME type fix for Next.js static assets on Hostinger
+# Without these, Apache may serve .js/.css as text/plain
+<IfModule mod_mime.c>
+  # JavaScript
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+  
+  # CSS
+  AddType text/css .css
+  
+  # JSON
+  AddType application/json .json
+  
+  # WebAssembly
+  AddType application/wasm .wasm
+  
+  # Fonts
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType application/font-woff2 .woff2
+  AddType application/font-woff .woff
+  AddType font/ttf .ttf
+  AddType font/otf .otf
+  AddType font/eot .eot
+  
+  # Images
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType image/svg+xml .svg .svgz
+  AddType image/png .png
+  AddType image/jpeg .jpg .jpeg
+  AddType image/gif .gif
+  AddType image/x-icon .ico
+  
+  # Source maps
+  AddType application/json .map
+</IfModule>
+
+# Ensure proper encoding
+<IfModule mod_headers.c>
+  # Do not let Apache override Content-Type headers set by the application
+  <FilesMatch "\.(js|mjs|css|json|wasm|woff2?|ttf|otf|eot|webp|avif|svgz?)$">
+    Header set X-Content-Type-Options "nosniff"
+  </FilesMatch>
+</IfModule>
+
+# Pass all requests through the Node.js application
+# This ensures Next.js handles MIME types correctly
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # ALWAYS send Next.js static assets to Node.js (which sets correct MIME types)
+  # This MUST come before the !-f check so Apache never serves these files directly
+  RewriteCond %{REQUEST_URI} ^/_next/static/
+  RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
+
+  # All other requests: proxy to Node.js if not a real file
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
+</IfModule>
