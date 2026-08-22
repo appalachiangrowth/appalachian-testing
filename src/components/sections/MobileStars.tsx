@@ -1,11 +1,10 @@
 'use client';
 
 /*
- * Static star field for mobile view — no animations, zero JS overhead.
- * Scattered lightly across the FULL page height (not just viewport)
- * to match the desktop aesthetic. Uses absolute positioning so stars
- * scroll with the content and cover the entire page.
- * Desktop uses the animated StarField component instead.
+ * Static star field for mobile view — no animations.
+ * The layer stays fixed to the viewport so the stars and crescent remain
+ * visible behind the page as visitors scroll, matching the desktop backdrop
+ * without adding motion on mobile.
  */
 
 interface StarDot {
@@ -112,17 +111,17 @@ function CrescentMoon() {
   return (
     <div
       className="absolute"
-      style={{ top: '2%', right: '8%' }}
+      style={{ top: '16%', right: '2%', filter: 'drop-shadow(0 0 12px rgba(182,255,0,0.12))' }}
       aria-hidden="true"
     >
-      <svg width="60" height="60" viewBox="0 0 180 180" fill="none">
-        <circle cx="65" cy="90" r="55" fill="rgba(255,255,240,0.04)" />
-        <circle cx="65" cy="90" r="45" fill="rgba(255,255,245,0.18)" />
+        <svg width="100" height="100" viewBox="0 0 180 180" fill="none">
+        <circle cx="65" cy="90" r="55" fill="rgba(255,255,240,0.06)" />
+        <circle cx="65" cy="90" r="45" fill="rgba(255,255,245,0.28)" />
         <circle cx="83" cy="82" r="40" fill="#050505" />
         <circle cx="42" cy="78" r="6" fill="rgba(255,255,240,0.04)" />
         <circle cx="52" cy="105" r="4" fill="rgba(255,255,240,0.03)" />
         <circle cx="36" cy="92" r="3" fill="rgba(255,255,240,0.03)" />
-        <circle cx="65" cy="90" r="45" fill="none" stroke="rgba(182,255,0,0.06)" strokeWidth="1.5" />
+        <circle cx="65" cy="90" r="45" fill="none" stroke="rgba(182,255,0,0.12)" strokeWidth="1.5" />
       </svg>
     </div>
   );
@@ -131,8 +130,8 @@ function CrescentMoon() {
 export default function MobileStars() {
   return (
     <div
-      className="absolute top-0 left-0 right-0 z-0 pointer-events-none md:hidden"
-      style={{ minHeight: '100%', height: 'auto' }}
+      className="mobile-static-starfield fixed inset-0 z-[1] pointer-events-none overflow-hidden md:hidden"
+      style={{ opacity: 0.9 }}
       aria-hidden="true"
     >
       {stars.map((star, i) => {

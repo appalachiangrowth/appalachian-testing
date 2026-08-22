@@ -21,7 +21,11 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   icons: {
-    icon: "/appalachian-logo.png",
+    icon: [
+      { url: "/appalachian-favicon-512.png", type: "image/png", sizes: "512x512" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: "/appalachian-favicon-512.png",
   },
   openGraph: {
     title: "Shopify, WordPress & SEO Services | Appalachian Growth Solutions",
@@ -190,6 +194,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" href="/appalachian-logo.png" as="image" type="image/png" />
+        <link rel="icon" href="/appalachian-favicon-512.png" type="image/png" sizes="512x512" />
         <link rel="preload" href="/portfolio/skinnydiplondon.webp" as="image" type="image/webp" />
         <link rel="preload" href="/portfolio/hgwalter.webp" as="image" type="image/webp" />
         <script

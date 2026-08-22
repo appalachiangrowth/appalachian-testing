@@ -82,7 +82,7 @@ const orbs = [
 
 function GlowOrbs() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div className="hero-orb-layer pointer-events-none absolute inset-0 overflow-hidden">
       {orbs.map((orb, i) => (
         <div
           key={i}
@@ -157,7 +157,7 @@ function PhoneDevice({ screenshot, isTransitioning }: { screenshot: string; isTr
             <img
               src={screenshot}
               alt="Mobile store preview"
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              className="hero-phone-screen absolute inset-0 w-full h-full object-cover object-[50%_10%]"
               loading="lazy"
               onError={(e) => { console.warn('[Hero] Phone image failed:', screenshot); (e.target as HTMLImageElement).style.display = 'none'; }}
             />
@@ -333,8 +333,8 @@ export default function Hero() {
       className="relative flex flex-col items-center overflow-hidden bg-[#050505] px-3 sm:px-4 pt-12 sm:pt-16 pb-6 sm:pb-10"
     >
       {/* Animated mesh gradient background */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] animate-[spin-slow_60s_linear_infinite]" style={{background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(182,255,0,0.03) 60deg, transparent 120deg, rgba(0,212,255,0.02) 240deg, transparent 360deg)', filter: 'blur(80px)'}} />
+      <div className="hero-mesh pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="hero-mesh-gradient absolute -top-1/2 -left-1/2 w-[200%] h-[200%] animate-[spin-slow_60s_linear_infinite]" style={{background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(182,255,0,0.03) 60deg, transparent 120deg, rgba(0,212,255,0.02) 240deg, transparent 360deg)', filter: 'blur(80px)'}} />
       </div>
 
       <GlowOrbs />
@@ -360,6 +360,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex max-w-7xl flex-1 flex-col items-center justify-center text-center w-full">
+        <div className="mobile-text-layer flex w-full flex-col items-center">
         {/* Headline */}
         <AnimatedHeadline headline={heroHeadline} />
 
@@ -414,6 +415,8 @@ export default function Hero() {
           </a>
         </div>
 
+        </div>
+
         {/* Device Mockups */}
         <div className="hero-fade-up relative mt-6 sm:mt-10 lg:mt-12 w-full max-w-5xl" style={{ animationDelay: '1.6s' }}>
           <div
@@ -422,7 +425,7 @@ export default function Hero() {
           >
             {/* Phone */}
             <div
-              className="hero-float relative z-10 w-[55px] sm:w-[85px] md:w-[100px] lg:w-[115px] shrink-0"
+              className="hero-float relative z-10 w-[76px] sm:w-[85px] md:w-[100px] lg:w-[115px] shrink-0"
               style={{
                 transform: 'rotateY(8deg) rotateX(2deg)',
                 transformStyle: 'preserve-3d',

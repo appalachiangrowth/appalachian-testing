@@ -67,3 +67,14 @@ tool-results/
 
 # Skills directory
 /skills/
+
+# Local preview and agent artifacts
+/upload/
+/agent-ctx/
+/hostinger-*.json
+/error-screenshot.png
+/final*.png
+/qa*.png
+/round2-*.png
+/screenshot-*.png
+*.pid

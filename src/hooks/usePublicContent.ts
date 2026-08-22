@@ -132,7 +132,7 @@ export interface PublicContent {
 
 // ─── Module-level cache with TTL: shared across all hook consumers ───
 
-const CACHE_TTL_MS = 10_000; // 10 seconds
+const CACHE_TTL_MS = 60_000; // Refresh at most once per minute when the page is revisited
 
 let cachedData: PublicContent | null = null;
 let cachedAt = 0;
@@ -186,16 +186,19 @@ export function usePublicContent() {
         });
     };
 
-    // Fresh cache — still set up interval for periodic refresh
-    if (cachedData && (Date.now() - cachedAt) < CACHE_TTL_MS) {
-      // Cache is fresh, but still poll every 30s for changes
-      const interval = setInterval(refresh, 30_000);
-      return () => { mountedRef.current = false; clearInterval(interval); };
-    }
+    const refreshIfStale = () => {
+      if (!cachedData || (Date.now() - cachedAt) >= CACHE_TTL_MS) refresh();
+    };
 
-    refresh();
-    const interval = setInterval(refresh, 30_000);
-    return () => { mountedRef.current = false; clearInterval(interval); };
+    refreshIfStale();
+    window.addEventListener('focus', refreshIfStale);
+    document.addEventListener('visibilitychange', refreshIfStale);
+
+    return () => {
+      mountedRef.current = false;
+      window.removeEventListener('focus', refreshIfStale);
+      document.removeEventListener('visibilitychange', refreshIfStale);
+    };
   }, []);
 
   return { data, isLoading, error };

@@ -4,7 +4,7 @@ export interface SiteSettings {
   [key: string]: string;
 }
 
-const CACHE_TTL_MS = 10_000; // 10 seconds
+const CACHE_TTL_MS = 60_000; // Refresh at most once per minute when the page is revisited
 
 let cachedData: SiteSettings | null = null;
 let cachedAt = 0;
@@ -57,14 +57,19 @@ export function useSiteSettings() {
         });
     };
 
-    if (cachedData && (Date.now() - cachedAt) < CACHE_TTL_MS) {
-      const interval = setInterval(refresh, 30_000);
-      return () => { mountedRef.current = false; clearInterval(interval); };
-    }
+    const refreshIfStale = () => {
+      if (!cachedData || (Date.now() - cachedAt) >= CACHE_TTL_MS) refresh();
+    };
 
-    refresh();
-    const interval = setInterval(refresh, 30_000);
-    return () => { mountedRef.current = false; clearInterval(interval); };
+    refreshIfStale();
+    window.addEventListener('focus', refreshIfStale);
+    document.addEventListener('visibilitychange', refreshIfStale);
+
+    return () => {
+      mountedRef.current = false;
+      window.removeEventListener('focus', refreshIfStale);
+      document.removeEventListener('visibilitychange', refreshIfStale);
+    };
   }, []);
 
   return { data, isLoading, error };

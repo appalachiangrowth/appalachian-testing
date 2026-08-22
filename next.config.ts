@@ -5,11 +5,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://appalachiangrowthso
 const nextConfig: NextConfig = {
   output: 'standalone',
   poweredByHeader: false,
+  compress: true,
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   allowedDevOrigins: process.env.NODE_ENV !== 'production'
     ? ['preview-chat-24bf7d26-1aaa-48e6-b736-6ce8ecf236be.space-z.ai', 'space-z.ai']
     : [],
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -59,6 +64,36 @@ const nextConfig: NextConfig = {
         source: '/_next/static/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/api/public/content',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=60, stale-while-revalidate=300' },
+        ],
+      },
+      {
+        source: '/api/public/settings',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=60, stale-while-revalidate=300' },
+        ],
+      },
+      {
+        source: '/api/public/blogs',
+        headers: [
+          { key: 'Cache-Control', value: 'public, s-maxage=60, stale-while-revalidate=300' },
+        ],
+      },
+      {
+        source: '/portfolio/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/seo-results/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
       },
       {

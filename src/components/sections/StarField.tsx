@@ -112,8 +112,8 @@ function NebulaClouds() {
 }
 
 export default function StarField() {
-  const stars = useMemo(() => generateStars(150), [])
-  const shootingStars = useMemo(() => generateShootingStars(6), [])
+  const stars = useMemo(() => generateStars(96), [])
+  const shootingStars = useMemo(() => generateShootingStars(3), [])
   const [scrollY, setScrollY] = useState(0)
   const rafRef = useRef<number>(0)
 

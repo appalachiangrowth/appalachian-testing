@@ -484,3 +484,22 @@
 .prose-blog pre code { background: none; padding: 0; color: #E5E5E5; }
 .prose-blog img { border-radius: 0.75rem; margin: 1.5rem 0; }
 .prose-blog hr { border: none; border-top: 1px solid rgba(182,255,0,0.1); margin: 2rem 0; }
+
+/* ---- Mobile static star backdrop ---- */
+@media (max-width: 767px) {
+  .mobile-static-starfield {
+    opacity: 0.96 !important;
+  }
+
+  /* Keep the hero copy slightly transparent so the stars and crescent show through. */
+  .mobile-text-layer {
+    opacity: 0.88;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-mesh-gradient,
+  .hero-orb-layer > div {
+    animation: none !important;
+  }
+}
