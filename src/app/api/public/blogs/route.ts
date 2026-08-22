@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { normalizeMediaUrl } from '@/lib/media';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -24,7 +25,10 @@ export async function GET(request: Request) {
       console.log('[Public Blogs GET] First post coverImage:', blogs[0].coverImage);
     }
 
-    return NextResponse.json(blogs);
+    return NextResponse.json(blogs.map((blog) => ({
+      ...blog,
+      coverImage: blog.coverImage ? normalizeMediaUrl(blog.coverImage) : null,
+    })));
   } catch (error) {
     console.error('[Public Blogs GET] DB error:', error);
     return NextResponse.json({ error: 'Database error', details: String((error as Error)?.message || '') }, { status: 500 });

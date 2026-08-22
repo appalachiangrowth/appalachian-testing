@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, Tag, Search, X } from 'lucide-react';
 import { db } from '@/lib/db';
+import { normalizeMediaUrl } from '@/lib/media';
 import BlogSearch from './BlogSearch';
 
 export const revalidate = 60;
@@ -51,6 +52,11 @@ export default async function BlogPage({ searchParams }: Props) {
     const e = err as Error & { code?: string; meta?: unknown };
     console.error('[BLOG-Q1 findMany posts]', e.code, e.message, e.meta);
   }
+
+  posts = posts.map((post) => ({
+    ...post,
+    coverImage: normalizeMediaUrl(post.coverImage),
+  }));
 
   // --- Query 2: Fetch distinct categories ---
   let categoryNames: string[] = [];

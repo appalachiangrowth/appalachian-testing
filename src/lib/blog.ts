@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import { marked } from 'marked';
+import { normalizeMediaUrl } from '@/lib/media';
 
 export interface BlogTagData {
   id: string;
@@ -55,6 +56,8 @@ type RawPost = {
 function formatPost(p: RawPost): BlogPost {
   return {
     ...p,
+    coverImage: p.coverImage ? normalizeMediaUrl(p.coverImage) : null,
+    ogImage: p.ogImage ? normalizeMediaUrl(p.ogImage) : null,
     contentHtml: marked(p.content) as string,
     tags: p.postTags.map(pt => pt.tag),
   };

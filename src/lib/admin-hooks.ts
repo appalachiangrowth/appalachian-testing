@@ -15,11 +15,13 @@ function formDataBody(data: Record<string, unknown>) {
   return fd;
 }
 
-export async function uploadFile(file: File, category = 'general') {
+export async function uploadFile(file: File, category = 'general'): Promise<string> {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('category', category);
-  return apiFetch(`${BASE}/upload`, { method: 'POST', body: fd });
+  const data = await apiFetch(`${BASE}/upload`, { method: 'POST', body: fd });
+  if (!data?.url || typeof data.url !== 'string') throw new Error('Upload response did not include a URL');
+  return data.url;
 }
 
 // ─── Auth ───

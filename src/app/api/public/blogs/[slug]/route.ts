@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { normalizeMediaUrl } from '@/lib/media';
 
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -21,5 +22,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
   // Increment views
   await db.blog.update({ where: { id: blog.id }, data: { views: { increment: 1 } } });
 
-  return NextResponse.json(blog);
+  return NextResponse.json({
+    ...blog,
+    coverImage: blog.coverImage ? normalizeMediaUrl(blog.coverImage) : null,
+    ogImage: blog.ogImage ? normalizeMediaUrl(blog.ogImage) : null,
+  });
 }

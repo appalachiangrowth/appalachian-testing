@@ -147,8 +147,8 @@ export function ImageUpload({
     if (!file) return;
     setUploading(true);
     try {
-      const res = await uploadFile(file, category);
-      onChange(res.url);
+      const url = await uploadFile(file, category);
+      onChange(url);
     } catch (err) {
       alert("Upload failed");
     } finally {

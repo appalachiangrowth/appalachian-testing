@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { normalizeMediaUrl } from '@/lib/media';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const [
@@ -29,7 +32,7 @@ export async function GET() {
   ]);
 
   return NextResponse.json({
-    portfolioItems,
+    portfolioItems: portfolioItems.map((item) => ({ ...item, image: normalizeMediaUrl(item.image) || item.image })),
     testimonials,
     teamMembers,
     faqs,
@@ -37,8 +40,8 @@ export async function GET() {
     transformations,
     marketingMetrics,
     heroStats,
-    heroScreenshots,
-    seoResultImages,
-    platformImages,
+    heroScreenshots: heroScreenshots.map((item) => ({ ...item, url: normalizeMediaUrl(item.url) || item.url })),
+    seoResultImages: seoResultImages.map((item) => ({ ...item, url: normalizeMediaUrl(item.url) || item.url })),
+    platformImages: platformImages.map((item) => ({ ...item, url: normalizeMediaUrl(item.url) || item.url })),
   });
 }

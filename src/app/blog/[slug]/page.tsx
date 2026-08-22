@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Tag, User, Eye, Share2, Twitter, Facebook, Linkedin, CheckCircle2 } from 'lucide-react';
 import { db } from '@/lib/db';
+import { normalizeMediaUrl } from '@/lib/media';
 import { notFound } from 'next/navigation';
 import DOMPurify from 'isomorphic-dompurify';
 import CopyLinkButton from '@/components/CopyLinkButton';
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const description = post.metaDescription || post.excerpt || (post.content || '').slice(0, 160).replace(/<[^>]*>/g, '');
     const ogTitle = post.ogTitle || title;
     const ogDesc = post.ogDescription || description;
-    const ogImg = post.ogImage || post.coverImage || '/og-default.jpg';
+    const ogImg = normalizeMediaUrl(post.ogImage) || normalizeMediaUrl(post.coverImage) || '/og-default.jpg';
     const canonical = post.canonicalUrl || `${SITE_URL}/blog/${slug}`;
 
     return {
@@ -107,6 +108,17 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  post = {
+    ...post,
+    coverImage: normalizeMediaUrl(post.coverImage),
+    ogImage: normalizeMediaUrl(post.ogImage),
+  };
+  related = related.map((item) => ({
+    ...item,
+    coverImage: normalizeMediaUrl(item.coverImage),
+    ogImage: normalizeMediaUrl(item.ogImage),
+  }));
+
   // Extract tags safely
   const tags = Array.isArray(post?.postTags) ? post.postTags.map((pt: any) => pt?.tag).filter(Boolean) : [];
 
@@ -133,7 +145,7 @@ export default async function BlogPostPage({ params }: Props) {
   db.blog.update({ where: { id: post.id }, data: { views: { increment: 1 } } }).catch(() => {});
 
   const canonical = post.canonicalUrl || `${SITE_URL}/blog/${slug}`;
-  const ogImg = post.ogImage || post.coverImage || '/og-default.jpg';
+  const ogImg = normalizeMediaUrl(post.ogImage) || normalizeMediaUrl(post.coverImage) || '/og-default.jpg';
 
   // JSON-LD structured data
   const jsonLd = {

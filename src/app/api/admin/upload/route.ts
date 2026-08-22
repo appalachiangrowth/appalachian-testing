@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { join, extname } from 'path';
+import { extname } from 'path';
 import { cookies } from 'next/headers';
 import { verifyToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { mediaUrl, saveUploadedMedia } from '@/lib/media';
 import { v4 as uuidv4 } from 'uuid';
 
 const ALLOWED_EXTENSIONS = new Set([
@@ -23,19 +23,17 @@ export async function POST(request: Request) {
     }
 
     const formData = await request.formData();
-    const file = formData.get('file') as File;
+    const file = formData.get('file') as File | null;
     const category = (formData.get('category') as string)?.replace(/[^a-zA-Z0-9_-]/g, '') || 'general';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json({ error: 'File too large (max 10MB)' }, { status: 400 });
     }
 
-    // Validate file extension
     const ext = extname(file.name).slice(1).toLowerCase();
     if (!ALLOWED_EXTENSIONS.has(ext)) {
       return NextResponse.json({ error: `File type .${ext} is not allowed` }, { status: 400 });
@@ -43,27 +41,23 @@ export async function POST(request: Request) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-
     const filename = `${uuidv4()}.${ext}`;
-    const relativePath = `/uploads/${category}/${filename}`;
-    const fullPath = join(process.cwd(), 'public', relativePath);
+    const relativePath = `${category}/${filename}`;
+    const url = mediaUrl(category, filename);
 
-    // Write file to disk first — return URL even if DB record fails
     try {
-      await mkdir(join(process.cwd(), 'public', 'uploads', category), { recursive: true });
-      await writeFile(fullPath, buffer);
+      await saveUploadedMedia(relativePath, buffer);
     } catch (writeErr) {
       console.error('[Upload] File write error:', writeErr);
-      return NextResponse.json({ error: 'Failed to write file to disk' }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to persist file' }, { status: 500 });
     }
 
-    // Try to create DB record (non-blocking — don't fail upload if DB fails)
     try {
       await db.uploadedFile.create({
         data: {
           filename: file.name,
-          url: relativePath,
-          mimetype: file.type,
+          url,
+          mimetype: file.type || 'application/octet-stream',
           size: buffer.length,
           category,
         },
@@ -73,7 +67,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      url: relativePath,
+      url,
       filename: file.name,
     });
   } catch (error) {
