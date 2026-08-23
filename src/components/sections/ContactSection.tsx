@@ -68,6 +68,7 @@ export default function ContactSection() {
   const { toast } = useToast()
   const { data: settings } = useSiteSettings()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -98,10 +99,13 @@ export default function ContactSection() {
         body: JSON.stringify(formData),
       })
 
-      if (res.ok) {
+      const result = await res.json().catch(() => null)
+
+      if (res.ok && result?.success) {
+        setIsSubmitted(true)
         toast({
-          title: 'Message Sent!',
-          description: "We'll get back to you within 24 hours.",
+          title: 'Form submitted successfully',
+          description: "Thank you. You will receive a response within 12 hours.",
         })
         setFormData({
           name: '',
@@ -113,8 +117,9 @@ export default function ContactSection() {
         })
       } else {
         toast({
-          title: 'Error',
-          description: 'Something went wrong. Please try again.',
+          title: 'Message not sent',
+          description: result?.error || 'Something went wrong. Please try again.',
+          variant: 'destructive',
         })
       }
     } catch {
@@ -186,6 +191,16 @@ export default function ContactSection() {
               className='relative bg-[#0A0A0A] rounded-2xl p-6 md:p-8 border border-[rgba(182,255,0,0.15)] neon-border-glow'
             >
               <div className='space-y-5'>
+                {isSubmitted && (
+                  <div
+                    role='status'
+                    aria-live='polite'
+                    className='rounded-lg border border-[#B6FF00]/40 bg-[#B6FF00]/10 px-4 py-3 text-left'
+                  >
+                    <p className='font-semibold text-[#B6FF00]'>Your form has been submitted.</p>
+                    <p className='mt-1 text-sm text-[#d8e6bd]'>Thank you for contacting us. You will receive a response within 12 hours.</p>
+                  </div>
+                )}
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
                   <div className='space-y-2'>
                     <Label className='text-sm text-[#bbb]'>Full Name *</Label>
@@ -193,9 +208,10 @@ export default function ContactSection() {
                       required
                       placeholder='John Doe'
                       value={formData.name}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setIsSubmitted(false)
                         setFormData({ ...formData, name: e.target.value })
-                      }
+                      }}
                       className={inputClasses}
                     />
                   </div>
@@ -208,9 +224,10 @@ export default function ContactSection() {
                       type='email'
                       placeholder='john@example.com'
                       value={formData.email}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setIsSubmitted(false)
                         setFormData({ ...formData, email: e.target.value })
-                      }
+                      }}
                       className={inputClasses}
                     />
                   </div>

@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Thank you! We'll get back to you soon.",
+      message: "Your form has been submitted. You will receive a response within 12 hours.",
       id: submissionId,
     });
   } catch (error) {
