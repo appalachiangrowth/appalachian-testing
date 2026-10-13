@@ -304,7 +304,7 @@ export default function Hero() {
     : ['Design', 'Development', 'SEO', 'Growth'];
 
   const screenshotGroups = (() => {
-    if (!data?.heroScreenshots?.length) {
+    if (true) {
       return {
         laptop: defaultLaptopScreenshots,
         monitor: defaultMonitorScreenshots,
